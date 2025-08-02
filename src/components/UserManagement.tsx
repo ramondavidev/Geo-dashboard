@@ -12,6 +12,7 @@ import { Modal } from "@/components/Modal";
 import { WeatherAvatar } from "@/components/WeatherAvatar";
 import { TimeZoneClock } from "@/components/TimeZoneClock";
 import { ForecastImage } from "@/components/ForecastImage";
+import { WeatherOverview } from "@/components/WeatherOverview";
 
 const Container = styled.div`
   max-width: 1400px;
@@ -55,32 +56,6 @@ const SectionTitle = styled.h2`
 const TimeZonesGrid = styled.div`
   display: grid;
   gap: 0.75rem;
-`;
-
-const WeatherStatsCard = styled.div`
-  background: ${(props) => props.theme.colors.surface};
-  border: 1px solid ${(props) => props.theme.colors.gray200};
-  border-radius: ${(props) => props.theme.borderRadius.md};
-  padding: 1rem;
-  box-shadow: ${(props) => props.theme.shadows.sm};
-`;
-
-const StatsGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-`;
-
-const StatItem = styled.div`
-  display: flex;
-  justify-content: space-between;
-  color: ${(props) => props.theme.colors.textSecondary};
-`;
-
-const StatValue = styled.span`
-  font-weight: 600;
-  color: ${(props) => props.theme.colors.textPrimary};
 `;
 
 const Header = styled.div`
@@ -191,7 +166,6 @@ const ButtonWithMargin = styled(Button)`
 export const UserManagement: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
-  const [weatherLoading, setWeatherLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
@@ -201,34 +175,10 @@ export const UserManagement: React.FC = () => {
   });
   const [submitting, setSubmitting] = useState(false);
 
-  useEffect(() => {
-    loadUsers();
-  }, []);
-
-  useEffect(() => {
-    if (users.length > 0 && !users.some((user) => user.weather)) {
-      loadWeatherData();
-    }
-  }, [users]);
-
-  const loadUsers = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const users = await apiService.getAllUsers();
-      setUsers(users);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to load users");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const loadWeatherData = React.useCallback(async () => {
     if (users.length === 0) return;
 
     try {
-      setWeatherLoading(true);
       const coordinates = users.map((user) => ({
         lat: user.latitude,
         lng: user.longitude,
@@ -247,10 +197,31 @@ export const UserManagement: React.FC = () => {
       );
     } catch (err) {
       console.error("Failed to load weather data:", err);
-    } finally {
-      setWeatherLoading(false);
     }
   }, [users]);
+
+  useEffect(() => {
+    loadUsers();
+  }, []);
+
+  useEffect(() => {
+    if (users.length > 0 && !users.some((user) => user.weather)) {
+      loadWeatherData();
+    }
+  }, [users, loadWeatherData]);
+
+  const loadUsers = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const users = await apiService.getAllUsers();
+      setUsers(users);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to load users");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleCreateUser = async () => {
     if (!formData.name.trim() || !formData.zipCode.trim()) {
@@ -357,9 +328,9 @@ export const UserManagement: React.FC = () => {
     const weatherUsers = users.filter((user) => user.weather);
     if (weatherUsers.length === 0) return null;
 
-    const avgTemp =
-      weatherUsers.reduce((sum, user) => sum + (user.weather?.temp || 0), 0) /
-      weatherUsers.length;
+    const temps = weatherUsers.map(user => user.weather?.temp || 0);
+    const avgTemp = temps.reduce((sum, temp) => sum + temp, 0) / temps.length;
+    
     const conditions = weatherUsers.reduce((acc, user) => {
       const condition = user.weather?.condition || "unknown";
       acc[condition] = (acc[condition] || 0) + 1;
@@ -374,7 +345,11 @@ export const UserManagement: React.FC = () => {
       avgTemp: Math.round(avgTemp),
       totalUsers: weatherUsers.length,
       mostCommonCondition: mostCommon ? mostCommon[0] : "unknown",
-      conditionCount: mostCommon ? mostCommon[1] : 0,
+      conditionCounts: conditions,
+      temperatureRange: {
+        min: Math.min(...temps),
+        max: Math.max(...temps),
+      },
     };
   };
 
@@ -533,29 +508,10 @@ export const UserManagement: React.FC = () => {
           <MapSection>
             <SidebarContent>
               {weatherStats && (
-                <WeatherStatsCard>
-                  <SectionTitle>Weather Overview</SectionTitle>
-                  <StatsGrid>
-                    <StatItem>
-                      <span>Avg Temperature:</span>
-                      <StatValue>{weatherStats.avgTemp}°F</StatValue>
-                    </StatItem>
-                    <StatItem>
-                      <span>Most Common:</span>
-                      <StatValue style={{ textTransform: "capitalize" }}>
-                        {weatherStats.mostCommonCondition}
-                      </StatValue>
-                    </StatItem>
-                    <StatItem>
-                      <span>Users with Weather:</span>
-                      <StatValue>{weatherStats.totalUsers}</StatValue>
-                    </StatItem>
-                    <StatItem>
-                      <span>Total Users:</span>
-                      <StatValue>{users.length}</StatValue>
-                    </StatItem>
-                  </StatsGrid>
-                </WeatherStatsCard>
+                <WeatherOverview 
+                  weatherStats={weatherStats}
+                  totalUsers={users.length}
+                />
               )}
 
               <div>
