@@ -54,7 +54,6 @@ export const Subtitle = styled.p`
 export const Main = styled(motion.main)`
   max-width: 1280px;
   margin: 0 auto;
-  padding: ${({ theme }) => `${theme.spacing["2xl"]} ${theme.spacing.lg}`};
   flex: 1;
 `;
 

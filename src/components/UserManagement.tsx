@@ -64,13 +64,104 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+  border-bottom: 2px solid ${(props) => props.theme.colors.gray100};
+  position: relative;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+  }
 `;
 
 const Title = styled.h1`
   color: ${(props) => props.theme.colors.textPrimary};
-  font-size: 2.5rem;
-  font-weight: 700;
+  font-size: 3rem;
+  font-weight: 800;
   margin: 0;
+  background: linear-gradient(
+    135deg,
+    ${(props) => props.theme.colors.primary},
+    #667eea
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(
+      135deg,
+      ${(props) => props.theme.colors.primary},
+      #667eea
+    );
+    border-radius: 2px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 2.5rem;
+
+    &::after {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (max-width: 480px) {
+    font-size: 2rem;
+  }
+`;
+
+const HeaderButton = styled(Button)`
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.875rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    transition: left 0.5s;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 280px;
+  }
 `;
 
 const UserGrid = styled.div`
@@ -413,9 +504,9 @@ export const UserManagement: React.FC = () => {
     <Container>
       <Header>
         <Title>Geo-CRUD Dashboard</Title>
-        <Button variant="primary" onClick={() => handleOpenModal()}>
+        <HeaderButton variant="primary" onClick={() => handleOpenModal()}>
           Add User
-        </Button>
+        </HeaderButton>
       </Header>
 
       <MainContent>
