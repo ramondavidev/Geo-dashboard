@@ -1,16 +1,6 @@
 import styled, { css } from "styled-components";
 import { motion } from "framer-motion";
-
-export interface ButtonProps {
-  variant?: "primary" | "secondary" | "danger" | "outline" | "ghost";
-  size?: "sm" | "md" | "lg";
-  loading?: boolean;
-  disabled?: boolean;
-  fullWidth?: boolean;
-  children: React.ReactNode;
-  onClick?: () => void;
-  type?: "button" | "submit" | "reset";
-}
+import { ButtonProps } from "./Button.types";
 
 const getVariantStyles = (variant: ButtonProps["variant"]) => {
   switch (variant) {
@@ -96,7 +86,7 @@ const getSizeStyles = (size: ButtonProps["size"]) => {
   }
 };
 
-const StyledButton = styled(motion.button)<{
+export const StyledButton = styled(motion.button)<{
   $variant: ButtonProps["variant"];
   $size: ButtonProps["size"];
   $fullWidth?: boolean;
@@ -134,40 +124,20 @@ const StyledButton = styled(motion.button)<{
   }
 `;
 
-const LoadingSpinner = styled.div`
+export const LoadingSpinner = styled.div`
   width: 1rem;
   height: 1rem;
   border: 2px solid transparent;
   border-top: 2px solid currentColor;
   border-radius: 50%;
   animation: spin 1s linear infinite;
-`;
 
-export const Button: React.FC<ButtonProps> = ({
-  variant = "primary",
-  size = "md",
-  loading = false,
-  disabled = false,
-  fullWidth = false,
-  children,
-  onClick,
-  type = "button",
-  ...props
-}) => {
-  return (
-    <StyledButton
-      $variant={variant}
-      $size={size}
-      $fullWidth={fullWidth}
-      disabled={disabled || loading}
-      onClick={onClick}
-      type={type}
-      whileHover={{ scale: disabled || loading ? 1 : 1.02 }}
-      whileTap={{ scale: disabled || loading ? 1 : 0.98 }}
-      {...props}
-    >
-      {loading && <LoadingSpinner />}
-      {children}
-    </StyledButton>
-  );
-};
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+`;

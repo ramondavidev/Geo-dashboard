@@ -1,13 +1,7 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import React from "react";
 
-interface LayoutProps {
-  children: React.ReactNode;
-  title?: string;
-}
-
-const Container = styled.div`
+export const Container = styled.div`
   min-height: 100vh;
   background: linear-gradient(
     135deg,
@@ -16,7 +10,7 @@ const Container = styled.div`
   );
 `;
 
-const Header = styled(motion.header)`
+export const Header = styled(motion.header)`
   background: ${({ theme }) => theme.colors.white};
   border-bottom: 1px solid ${({ theme }) => theme.colors.gray200};
   box-shadow: ${({ theme }) => theme.shadows.sm};
@@ -26,7 +20,7 @@ const Header = styled(motion.header)`
   z-index: 100;
 `;
 
-const HeaderContent = styled.div`
+export const HeaderContent = styled.div`
   max-width: 1280px;
   margin: 0 auto;
   padding: ${({ theme }) => `0 ${theme.spacing.lg}`};
@@ -35,7 +29,7 @@ const HeaderContent = styled.div`
   justify-content: space-between;
 `;
 
-const Title = styled.h1`
+export const Title = styled.h1`
   font-size: ${({ theme }) => theme.fontSizes["3xl"]};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   color: ${({ theme }) => theme.colors.textPrimary};
@@ -51,20 +45,20 @@ const Title = styled.h1`
   background-clip: text;
 `;
 
-const Subtitle = styled.p`
+export const Subtitle = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.lg};
   color: ${({ theme }) => theme.colors.textSecondary};
   margin: ${({ theme }) => `${theme.spacing.sm} 0 0 0`};
 `;
 
-const Main = styled(motion.main)`
+export const Main = styled(motion.main)`
   max-width: 1280px;
   margin: 0 auto;
   padding: ${({ theme }) => `${theme.spacing["2xl"]} ${theme.spacing.lg}`};
   flex: 1;
 `;
 
-const Footer = styled.footer`
+export const Footer = styled.footer`
   background: ${({ theme }) => theme.colors.white};
   border-top: 1px solid ${({ theme }) => theme.colors.gray200};
   padding: ${({ theme }) => `${theme.spacing.lg} 0`};
@@ -73,45 +67,8 @@ const Footer = styled.footer`
   font-size: ${({ theme }) => theme.fontSizes.sm};
 `;
 
-const FooterContent = styled.div`
+export const FooterContent = styled.div`
   max-width: 1280px;
   margin: 0 auto;
   padding: ${({ theme }) => `0 ${theme.spacing.lg}`};
 `;
-
-export const Layout: React.FC<LayoutProps> = ({
-  children,
-  title = "Geo-CRUD",
-}) => {
-  return (
-    <Container>
-      <Header
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-      >
-        <HeaderContent>
-          <div>
-            <Title>🌍 {title}</Title>
-            <Subtitle>Modern geo-location user management</Subtitle>
-          </div>
-        </HeaderContent>
-      </Header>
-
-      <Main
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-      >
-        {children}
-      </Main>
-
-      <Footer>
-        <FooterContent>
-          <p>Built with Next.js, TypeScript, Styled Components & Firebase</p>
-          <p>Powered by OpenWeatherMap API for real-time geo-location data</p>
-        </FooterContent>
-      </Footer>
-    </Container>
-  );
-};

@@ -1,15 +1,5 @@
 import styled, { css } from "styled-components";
-import React, { forwardRef } from "react";
-
-export interface InputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
-  label?: string;
-  error?: string;
-  helperText?: string;
-  size?: "sm" | "md" | "lg";
-  fullWidth?: boolean;
-  icon?: React.ReactNode;
-}
+import { InputProps } from "./Input.types";
 
 const getSizeStyles = (size: InputProps["size"]) => {
   switch (size) {
@@ -34,7 +24,7 @@ const getSizeStyles = (size: InputProps["size"]) => {
   }
 };
 
-const InputWrapper = styled.div<{ $fullWidth?: boolean }>`
+export const InputWrapper = styled.div<{ $fullWidth?: boolean }>`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.sm};
@@ -46,19 +36,19 @@ const InputWrapper = styled.div<{ $fullWidth?: boolean }>`
     `}
 `;
 
-const Label = styled.label`
+export const Label = styled.label`
   font-size: ${({ theme }) => theme.fontSizes.sm};
   font-weight: ${({ theme }) => theme.fontWeights.medium};
   color: ${({ theme }) => theme.colors.textPrimary};
 `;
 
-const InputContainer = styled.div`
+export const InputContainer = styled.div`
   position: relative;
   display: flex;
   align-items: center;
 `;
 
-const StyledInput = styled.input<{
+export const StyledInput = styled.input<{
   $size: InputProps["size"];
   $hasError?: boolean;
   $hasIcon?: boolean;
@@ -104,7 +94,7 @@ const StyledInput = styled.input<{
   }
 `;
 
-const IconContainer = styled.div`
+export const IconContainer = styled.div`
   position: absolute;
   left: ${({ theme }) => theme.spacing.md};
   display: flex;
@@ -113,44 +103,8 @@ const IconContainer = styled.div`
   pointer-events: none;
 `;
 
-const HelperText = styled.span<{ $isError?: boolean }>`
+export const HelperText = styled.span<{ $isError?: boolean }>`
   font-size: ${({ theme }) => theme.fontSizes.sm};
   color: ${({ theme, $isError }) =>
     $isError ? theme.colors.danger : theme.colors.textSecondary};
 `;
-
-export const Input = forwardRef<HTMLInputElement, InputProps>(
-  (
-    {
-      label,
-      error,
-      helperText,
-      size = "md",
-      fullWidth = false,
-      icon,
-      ...props
-    },
-    ref
-  ) => {
-    return (
-      <InputWrapper $fullWidth={fullWidth}>
-        {label && <Label htmlFor={props.id}>{label}</Label>}
-        <InputContainer>
-          {icon && <IconContainer>{icon}</IconContainer>}
-          <StyledInput
-            ref={ref}
-            $size={size}
-            $hasError={!!error}
-            $hasIcon={!!icon}
-            {...props}
-          />
-        </InputContainer>
-        {(error || helperText) && (
-          <HelperText $isError={!!error}>{error || helperText}</HelperText>
-        )}
-      </InputWrapper>
-    );
-  }
-);
-
-Input.displayName = "Input";
