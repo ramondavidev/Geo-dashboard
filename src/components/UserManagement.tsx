@@ -328,9 +328,9 @@ export const UserManagement: React.FC = () => {
     const weatherUsers = users.filter((user) => user.weather);
     if (weatherUsers.length === 0) return null;
 
-    const temps = weatherUsers.map(user => user.weather?.temp || 0);
+    const temps = weatherUsers.map((user) => user.weather?.temp || 0);
     const avgTemp = temps.reduce((sum, temp) => sum + temp, 0) / temps.length;
-    
+
     const conditions = weatherUsers.reduce((acc, user) => {
       const condition = user.weather?.condition || "unknown";
       acc[condition] = (acc[condition] || 0) + 1;
@@ -508,7 +508,7 @@ export const UserManagement: React.FC = () => {
           <MapSection>
             <SidebarContent>
               {weatherStats && (
-                <WeatherOverview 
+                <WeatherOverview
                   weatherStats={weatherStats}
                   totalUsers={users.length}
                 />

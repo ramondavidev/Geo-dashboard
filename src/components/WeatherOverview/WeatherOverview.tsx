@@ -2,11 +2,11 @@
 
 import React from "react";
 import { WeatherOverviewProps } from "./WeatherOverview.types";
-import { 
-  FaThermometerHalf, 
-  FaTemperatureHigh, 
-  FaUsers, 
-  FaChartPie 
+import {
+  FaThermometerHalf,
+  FaTemperatureHigh,
+  FaUsers,
+  FaChartPie,
 } from "react-icons/fa";
 import {
   formatTemperature,
@@ -110,7 +110,8 @@ export const WeatherOverview: React.FC<WeatherOverviewProps> = ({
             <FaTemperatureHigh />
           </StatIcon>
           <StatValue>
-            {formatTemperature(weatherStats.temperatureRange.min)} - {formatTemperature(weatherStats.temperatureRange.max)}
+            {formatTemperature(weatherStats.temperatureRange.min)} -{" "}
+            {formatTemperature(weatherStats.temperatureRange.max)}
           </StatValue>
           <StatLabel>Temperature Range</StatLabel>
         </StatCard>
@@ -153,11 +154,11 @@ export const WeatherOverview: React.FC<WeatherOverviewProps> = ({
                 $color={condition.color}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ 
-                  duration: 0.3, 
+                transition={{
+                  duration: 0.3,
                   delay: index * 0.1,
                   type: "spring",
-                  stiffness: 300
+                  stiffness: 300,
                 }}
                 whileHover={{ scale: 1.01 }}
               >
