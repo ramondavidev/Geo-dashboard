@@ -55,7 +55,7 @@ const SectionTitle = styled.h2`
 `;
 
 const TimeZonesGrid = styled.div`
-  display: grid;
+  display: flex;
   gap: 0.75rem;
 `;
 
