@@ -291,7 +291,7 @@ export const UserManagement: React.FC = () => {
         offset: timeZoneInfo.offset,
         currentTime: currentTimeInZone,
       };
-    } catch (error) {
+    } catch {
       return {
         abbreviation: "UTC",
         offset: "UTC+0",
@@ -362,6 +362,17 @@ export const UserManagement: React.FC = () => {
       setSubmitting(true);
       setError(null);
       const newUser = await apiService.createUser(formData);
+
+      try {
+        const weatherData = await weatherService.getWeatherByCoordinates(
+          newUser.latitude,
+          newUser.longitude
+        );
+        newUser.weather = weatherData;
+      } catch (weatherErr) {
+        console.error("Failed to fetch weather for new user:", weatherErr);
+      }
+
       setUsers((prev) => [newUser, ...prev]);
       handleCloseModal();
     } catch (err) {
@@ -395,6 +406,25 @@ export const UserManagement: React.FC = () => {
         editingUser.id,
         updateData
       );
+
+      if (updateData.zipCode) {
+        try {
+          const weatherData = await weatherService.getWeatherByCoordinates(
+            updatedUser.latitude,
+            updatedUser.longitude
+          );
+          updatedUser.weather = weatherData;
+        } catch (weatherErr) {
+          console.error(
+            "Failed to fetch weather for updated user:",
+            weatherErr
+          );
+          updatedUser.weather = editingUser.weather;
+        }
+      } else {
+        updatedUser.weather = editingUser.weather;
+      }
+
       setUsers((prev) =>
         prev.map((user) => (user.id === editingUser.id ? updatedUser : user))
       );
