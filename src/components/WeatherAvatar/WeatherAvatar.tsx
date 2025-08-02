@@ -14,7 +14,11 @@ import {
   StormyAvatar,
   FoggyAvatar,
 } from "./WeatherAvatar.styles";
-import { getInitials, createRainDrops, createSnowFlakes } from "./WeatherAvatar.utils";
+import {
+  getInitials,
+  createRainDrops,
+  createSnowFlakes,
+} from "./WeatherAvatar.utils";
 
 export const WeatherAvatar: React.FC<WeatherAvatarProps> = ({
   userName,

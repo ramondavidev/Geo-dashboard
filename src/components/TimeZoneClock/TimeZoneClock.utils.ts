@@ -46,7 +46,10 @@ export const getTimeZoneInfo = (timezone: string): TimeZoneInfo => {
   }
 };
 
-export const formatTime = (timeString: string, showSeconds: boolean): string => {
+export const formatTime = (
+  timeString: string,
+  showSeconds: boolean
+): string => {
   if (!showSeconds) {
     return timeString.substring(0, 5); // Remove seconds
   }
