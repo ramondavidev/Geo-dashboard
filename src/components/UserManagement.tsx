@@ -13,6 +13,7 @@ import { WeatherAvatar } from "@/components/WeatherAvatar";
 import { TimeZoneClock } from "@/components/TimeZoneClock";
 import { ForecastImage } from "@/components/ForecastImage";
 import { WeatherOverview } from "@/components/WeatherOverview";
+import { getTimeZoneInfo } from "@/components/TimeZoneClock/TimeZoneClock.utils";
 
 const Container = styled.div`
   max-width: 1400px;
@@ -174,6 +175,43 @@ export const UserManagement: React.FC = () => {
     zipCode: "",
   });
   const [submitting, setSubmitting] = useState(false);
+  const [, forceUpdate] = useState({});
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      forceUpdate({});
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const getTimezoneDisplay = (timezone: string) => {
+    try {
+      const timeZoneInfo = getTimeZoneInfo(timezone);
+      const currentTimeInZone = new Date().toLocaleTimeString("en-US", {
+        timeZone: timezone,
+        hour12: true,
+        hour: "numeric",
+        minute: "2-digit",
+      });
+
+      return {
+        abbreviation: timeZoneInfo.abbreviation,
+        offset: timeZoneInfo.offset,
+        currentTime: currentTimeInZone,
+      };
+    } catch (error) {
+      return {
+        abbreviation: "UTC",
+        offset: "UTC+0",
+        currentTime: new Date().toLocaleTimeString("en-US", {
+          hour12: true,
+          hour: "numeric",
+          minute: "2-digit",
+        }),
+      };
+    }
+  };
 
   const loadWeatherData = React.useCallback(async () => {
     if (users.length === 0) return;
@@ -446,21 +484,30 @@ export const UserManagement: React.FC = () => {
                           <UserName>{user.name}</UserName>
                           <UserDetail>📍 {user.zipCode}</UserDetail>
                           {user.weather && (
-                            <UserDetail>
-                              🌡️ {Math.round(user.weather.temp)}°F •{" "}
-                              {user.weather.description}
-                            </UserDetail>
+                            <>
+                              <UserDetail>
+                                🌡️ {Math.round(user.weather.temp)}°F •{" "}
+                                {user.weather.description}
+                              </UserDetail>
+                              <UserDetail>
+                                💧 {user.weather.humidity}% • 💨{" "}
+                                {Math.round(user.weather.windSpeed)} mph
+                              </UserDetail>
+                            </>
                           )}
+                          {(() => {
+                            const timezoneInfo = getTimezoneDisplay(
+                              user.timezone
+                            );
+                            return (
+                              <UserDetail>
+                                🕐 {timezoneInfo.currentTime} •{" "}
+                                {timezoneInfo.abbreviation} (
+                                {timezoneInfo.offset})
+                              </UserDetail>
+                            );
+                          })()}
                         </div>
-                      </div>
-
-                      <div style={{ marginBottom: "1rem" }}>
-                        <TimeZoneClock
-                          timezone={user.timezone}
-                          userName={user.name}
-                          size="md"
-                          showSeconds={true}
-                        />
                       </div>
 
                       <LocationInfo>
@@ -523,7 +570,7 @@ export const UserManagement: React.FC = () => {
                       timezone={user.timezone}
                       userName={user.name}
                       size="sm"
-                      showSeconds={false}
+                      showSeconds={true}
                     />
                   ))}
                 </TimeZonesGrid>
