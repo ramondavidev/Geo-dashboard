@@ -99,17 +99,23 @@ Before running the application, make sure you have the following:
    **Backend Environment** - Create `.env` in the `backend` directory:
 
    ```env
-   OPENWEATHER_API_KEY=your_openweather_api_key_here
-   FIREBASE_PROJECT_ID=your_firebase_project_id
-   FIREBASE_DATABASE_URL=https://your-project.firebaseio.com
-   PORT=5000
+   FIREBASE_API_KEY=""
+   FIREBASE_AUTH_DOMAIN=""
+   FIREBASE_DATABASE_URL=""
+   FIREBASE_PROJECT_ID=""
+   FIREBASE_STORAGE_BUCKET=""
+   FRONTEND_URL=""
+   OPENWEATHER_API_KEY=""
+   NODE_ENV=""
+   FIREBASE_CLIENT_EMAIL=""
+   FIREBASE_PRIVATE_KEY=""
    ```
 
    > ⚠️ **Important**: Replace the placeholder values with your actual API keys and Firebase configuration
 
 5. **Firebase Setup**
 
-   Follow the detailed instructions in `backend/FIREBASE_SETUP.md` and `backend/SERVICE_ACCOUNT_SETUP.md` to configure Firebase authentication and database rules.
+   If needed, follow the detailed instructions in `backend/FIREBASE_SETUP.md` and `backend/SERVICE_ACCOUNT_SETUP.md` to configure Firebase authentication and database rules.
 
 ### 🏃‍♂️ Running the Application
 
@@ -269,28 +275,6 @@ npm run test:coverage
 - Weather data processing
 - Timezone calculations
 - Form validation and error handling
-
-## 🚨 Error Handling & Troubleshooting
-
-### Common Issues
-
-**Firebase Connection Issues:**
-
-- Verify Firebase project ID and database URL in environment variables
-- Check Firebase security rules allow read/write access
-- Ensure service account credentials are properly configured
-
-**OpenWeatherMap API Issues:**
-
-- Confirm API key is valid and active
-- Check API usage limits haven't been exceeded
-- Verify zip code format is supported
-
-**Build/Development Issues:**
-
-- Clear Next.js cache: `rm -rf .next`
-- Reinstall dependencies: `rm -rf node_modules && npm install`
-- Check Node.js version compatibility (16+)
 
 ## 🔒 Security Considerations
 
