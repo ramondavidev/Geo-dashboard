@@ -187,7 +187,6 @@ export const HeaderButton = styled(motion.button)`
     transform: translateY(-3px);
     box-shadow: 0 8px 30px rgba(59, 130, 246, 0.45),
       0 4px 15px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    background: linear-gradient(135deg, #2563eb, #5b21b6);
 
     &::before {
       left: 100%;
