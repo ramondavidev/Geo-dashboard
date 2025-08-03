@@ -106,15 +106,43 @@ export const Title = styled.h1`
   }
 `;
 
-export const HeaderButton = styled.button`
+export const HeaderButton = styled(motion.button)`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   font-size: 1rem;
   font-weight: 600;
-  padding: 0.875rem 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 16px;
+  background: linear-gradient(
+    135deg,
+    ${(props) => props.theme.colors.primary},
+    #667eea
+  );
+  color: ${(props) => props.theme.colors.white};
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.35), 0 1px 3px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  cursor: pointer;
+  text-decoration: none;
+
+  /* Subtle pulse animation on load */
+  animation: subtlePulse 2s ease-in-out infinite;
+
+  @keyframes subtlePulse {
+    0%, 100% {
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.35), 0 1px 3px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+    50% {
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45), 0 2px 8px rgba(0, 0, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    }
+  }
 
   &::before {
     content: "";
@@ -126,28 +154,65 @@ export const HeaderButton = styled.button`
     background: linear-gradient(
       90deg,
       transparent,
-      rgba(255, 255, 255, 0.2),
+      rgba(255, 255, 255, 0.25),
       transparent
     );
-    transition: left 0.5s;
+    transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.3),
+      rgba(255, 255, 255, 0.1)
+    );
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: xor;
+    pointer-events: none;
+  }
+
+  .icon {
+    font-size: 1.1rem;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+    animation: none; /* Stop pulse on hover */
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(59, 130, 246, 0.45),
+      0 4px 15px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    background: linear-gradient(135deg, #2563EB, #5B21B6);
 
     &::before {
       left: 100%;
     }
+
+    .icon {
+      transform: scale(1.1) rotate(5deg);
+    }
   }
 
   &:active {
-    transform: translateY(0);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4),
+      0 2px 8px rgba(0, 0, 0, 0.12);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.35),
+      0 0 0 3px rgba(59, 130, 246, 0.2);
   }
 
   @media (max-width: 768px) {
     width: 100%;
     max-width: 280px;
+    padding: 0.875rem 1.5rem;
   }
 `;
 
@@ -238,6 +303,73 @@ export const ErrorMessage = styled.div`
   margin-bottom: 1rem;
 `;
 
-export const ButtonWithMargin = styled.button`
-  margin-top: 1rem;
+export const ButtonWithMargin = styled(motion.button)`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 16px;
+  background: linear-gradient(
+    135deg,
+    ${(props) => props.theme.colors.primary},
+    #667eea
+  );
+  color: ${(props) => props.theme.colors.white};
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.35), 0 1px 3px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.25),
+      transparent
+    );
+    transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .icon {
+    font-size: 1.1rem;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(59, 130, 246, 0.45),
+      0 4px 15px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(135deg, #2563eb, #5b21b6);
+
+    &::before {
+      left: 100%;
+    }
+
+    .icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+  }
+
+  &:active {
+    transform: translateY(-1px);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.35),
+      0 0 0 3px rgba(59, 130, 246, 0.2);
+  }
 `;

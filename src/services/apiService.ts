@@ -5,6 +5,11 @@ import {
   ApiResponse,
 } from "@/types";
 
+interface ValidationError {
+  field: string;
+  message: string;
+}
+
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 class ApiService {
@@ -24,6 +29,12 @@ class ApiService {
       const data = await response.json();
 
       if (!response.ok) {
+        if (data.error === "Validation failed" && Array.isArray(data.data)) {
+          const validationErrors = data.data
+            .map((err: ValidationError) => err.message)
+            .join(". ");
+          throw new Error(validationErrors);
+        }
         throw new Error(data.error || `HTTP error! status: ${response.status}`);
       }
 

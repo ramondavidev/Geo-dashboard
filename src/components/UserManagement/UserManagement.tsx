@@ -317,7 +317,17 @@ export const UserManagement: React.FC = () => {
     <Container>
       <Header>
         <Title>Geo-CRUD Dashboard</Title>
-        <HeaderButton onClick={() => handleOpenModal()}>Add User</HeaderButton>
+        <HeaderButton
+          onClick={() => handleOpenModal()}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <span className="icon">👤</span>
+          Add User
+        </HeaderButton>
       </Header>
 
       <MainContent>
@@ -344,7 +354,15 @@ export const UserManagement: React.FC = () => {
               >
                 <h3>No users found</h3>
                 <p>Get started by adding your first user!</p>
-                <ButtonWithMargin onClick={() => handleOpenModal()}>
+                <ButtonWithMargin
+                  onClick={() => handleOpenModal()}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                >
+                  <span className="icon">🚀</span>
                   Add First User
                 </ButtonWithMargin>
               </motion.div>
