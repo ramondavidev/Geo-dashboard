@@ -21,25 +21,48 @@ export const initializeFirebase = () => {
       return;
     }
 
-    // Basic Firebase Admin configuration without credentials for public access
     const appOptions: AppOptions = {
       databaseURL: process.env.FIREBASE_DATABASE_URL!,
       projectId: process.env.FIREBASE_PROJECT_ID!,
     };
 
-    // Only try to use credentials if service account key is explicitly provided
-    if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+    if (process.env.FIREBASE_PRIVATE_KEY && process.env.FIREBASE_CLIENT_EMAIL) {
+      console.log(
+        "🔐 Using service account credentials from environment variables"
+      );
+      try {
+        const privateKey = process.env.FIREBASE_PRIVATE_KEY.replace(
+          /\\n/g,
+          "\n"
+        );
+
+        appOptions.credential = cert({
+          projectId: process.env.FIREBASE_PROJECT_ID!,
+          clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+          privateKey: privateKey,
+        });
+      } catch (error) {
+        console.error(
+          "❌ Error parsing service account credentials from environment:",
+          error
+        );
+        throw error;
+      }
+    }
+    // Priority 2: Check for service account file path via environment variable
+    else if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
       const serviceAccountPath = path.resolve(
         process.env.GOOGLE_APPLICATION_CREDENTIALS
       );
       if (fs.existsSync(serviceAccountPath)) {
-        console.log("🔐 Using service account credentials");
+        console.log("🔐 Using service account credentials from file path");
         appOptions.credential = cert(serviceAccountPath);
       } else {
         console.log("⚠️  Service account file not found at specified path");
       }
-    } else {
-      // Check for service account key in common locations
+    }
+    // Priority 3: Check for service account key in common locations (for local development)
+    else {
       const commonPaths = [
         path.join(__dirname, "..", "..", "serviceAccountKey.json"),
         path.join(__dirname, "..", "..", "firebase-service-account.json"),
@@ -59,12 +82,16 @@ export const initializeFirebase = () => {
 
       if (!foundServiceAccount) {
         console.log(
-          "🔐 No service account found - using public database access"
+          "🔐 No service account found - this will cause authentication errors"
         );
-        console.log("   To eliminate warnings, either:");
-        console.log("   1. Add a service account key file, or");
-        console.log("   2. Set database rules to allow public access");
-        // Don't set any credential - let Firebase handle public access
+        console.log(
+          "   For production deployment, set these environment variables:"
+        );
+        console.log("   - FIREBASE_PRIVATE_KEY");
+        console.log("   - FIREBASE_CLIENT_EMAIL");
+        console.log(
+          "   For local development, add serviceAccountKey.json file"
+        );
       }
     }
 
