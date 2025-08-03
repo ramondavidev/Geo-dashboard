@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { User, CreateUserRequest, UpdateUserRequest } from "@/types";
+import { UserManagementProps } from "./UserManagement.types";
 import { apiService } from "@/services/apiService";
 import { weatherService } from "@/services/weatherService";
 import { Button } from "@/components/common/Button";
@@ -39,7 +40,9 @@ import {
   ButtonWithMargin,
 } from "./UserManagement.styles";
 
-export const UserManagement: React.FC = () => {
+export const UserManagement: React.FC<UserManagementProps> = ({
+  onUserCountChange,
+}) => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -122,6 +125,12 @@ export const UserManagement: React.FC = () => {
       loadWeatherData();
     }
   }, [users, loadWeatherData]);
+
+  useEffect(() => {
+    if (onUserCountChange) {
+      onUserCountChange(users.length);
+    }
+  }, [users.length, onUserCountChange]);
 
   const loadUsers = async () => {
     try {
@@ -535,7 +544,8 @@ export const UserManagement: React.FC = () => {
               marginBottom: "1rem",
             }}
           >
-            Search by zip code or city name. Select from the dropdown or enter a 5-digit zip code directly.
+            Search by zip code or city name. Select from the dropdown or enter a
+            5-digit zip code directly.
           </div>
 
           <div

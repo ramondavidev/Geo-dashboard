@@ -55,6 +55,7 @@ export const Main = styled(motion.main)`
   max-width: 1280px;
   margin: 0 auto;
   flex: 1;
+  padding-bottom: 5rem;
 `;
 
 export const Footer = styled.footer`

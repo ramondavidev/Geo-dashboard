@@ -1,6 +1,7 @@
 import React from "react";
 import { LayoutProps } from "./Layout.types";
 import { EarthIcon } from "../EarthIcon";
+import { Footer } from "../Footer";
 import {
   Container,
   Header,
@@ -8,13 +9,13 @@ import {
   Title,
   Subtitle,
   Main,
-  Footer,
-  FooterContent,
 } from "./Layout.styles";
 
 export const Layout: React.FC<LayoutProps> = ({
   children,
   title = "Geo-CRUD",
+  showFooter = false,
+  userCount = 0,
 }) => {
   return (
     <Container>
@@ -41,6 +42,8 @@ export const Layout: React.FC<LayoutProps> = ({
       >
         {children}
       </Main>
+
+      <Footer show={showFooter} userCount={userCount} />
     </Container>
   );
 };
