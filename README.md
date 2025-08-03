@@ -92,8 +92,8 @@ Before running the application, make sure you have the following:
    **Frontend Environment** - Create `.env.local` in the root directory:
 
    ```env
-   NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_firebase_project_id
-   NEXT_PUBLIC_FIREBASE_DATABASE_URL=https://your-project.firebaseio.com
+   NEXT_PUBLIC_API_URL=""
+   NEXT_PUBLIC_OPENWEATHER_API_KEY=""
    ```
 
    **Backend Environment** - Create `.env` in the `backend` directory:
