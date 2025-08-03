@@ -65,25 +65,6 @@ describe("Layout", () => {
     expect(screen.getByText("Test Content")).toBeInTheDocument();
   });
 
-  it("renders footer content", () => {
-    render(
-      <Layout>
-        <div>Test Content</div>
-      </Layout>
-    );
-
-    expect(
-      screen.getByText(
-        "Built with Next.js, TypeScript, Styled Components & Firebase"
-      )
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        "Powered by OpenWeatherMap API for real-time geo-location data"
-      )
-    ).toBeInTheDocument();
-  });
-
   it("renders children correctly", () => {
     const childContent = "This is child content";
     render(<Layout>{childContent}</Layout>);

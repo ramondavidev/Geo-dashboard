@@ -41,13 +41,6 @@ export const Layout: React.FC<LayoutProps> = ({
       >
         {children}
       </Main>
-
-      <Footer>
-        <FooterContent>
-          <p>Built with Next.js, TypeScript, Styled Components & Firebase</p>
-          <p>Powered by OpenWeatherMap API for real-time geo-location data</p>
-        </FooterContent>
-      </Footer>
     </Container>
   );
 };

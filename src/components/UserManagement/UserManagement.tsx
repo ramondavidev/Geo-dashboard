@@ -506,13 +506,13 @@ export const UserManagement: React.FC = () => {
           {error && <ErrorMessage>{error}</ErrorMessage>}
 
           <Input
-            label="Full Name"
+            label="Name"
             type="text"
             value={formData.name}
             onChange={(e) =>
               setFormData((prev) => ({ ...prev, name: e.target.value }))
             }
-            placeholder="Enter full name"
+            placeholder="Enter name"
             disabled={submitting}
           />
 
