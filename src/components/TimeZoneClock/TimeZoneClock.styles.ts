@@ -19,6 +19,7 @@ export const ClockContainer = styled(motion.div)<{ $size: keyof typeof sizes }>`
   text-align: center;
   position: relative;
   overflow: hidden;
+  flex: 0 0 auto;
 
   &::before {
     content: "";
