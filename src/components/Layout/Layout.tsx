@@ -27,7 +27,7 @@ export const Layout: React.FC<LayoutProps> = ({
           <div style={{ display: "flex", alignItems: "center" }}>
             <EarthIcon size={38} />
             <div>
-              <Title>{title} 123</Title>
+              <Title>{title}</Title>
               <Subtitle>Modern geo-location user management</Subtitle>
             </div>
           </div>
