@@ -1,0 +1,1 @@
+export { EarthIcon } from "./EarthIcon";

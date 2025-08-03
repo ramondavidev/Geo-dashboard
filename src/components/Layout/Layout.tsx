@@ -1,5 +1,6 @@
 import React from "react";
 import { LayoutProps } from "./Layout.types";
+import { EarthIcon } from "../EarthIcon";
 import {
   Container,
   Header,
@@ -23,9 +24,12 @@ export const Layout: React.FC<LayoutProps> = ({
         transition={{ duration: 0.5, ease: "easeOut" }}
       >
         <HeaderContent>
-          <div>
-            <Title>🌍 {title}</Title>
-            <Subtitle>Modern geo-location user management</Subtitle>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <EarthIcon size={38} />
+            <div>
+              <Title>{title} 123</Title>
+              <Subtitle>Modern geo-location user management</Subtitle>
+            </div>
           </div>
         </HeaderContent>
       </Header>
