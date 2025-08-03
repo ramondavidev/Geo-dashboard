@@ -10,6 +10,7 @@ import { Button } from "@/components/common/Button";
 import { Input } from "@/components/common/Input";
 import { ZipCodeDropdown } from "@/components/ZipCodeDropdown";
 import { Modal } from "@/components/Modal";
+import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { WeatherAvatar } from "@/components/WeatherAvatar";
 import { TimeZoneClock } from "@/components/TimeZoneClock";
 import { ForecastImage } from "@/components/ForecastImage";
@@ -47,6 +48,9 @@ export const UserManagement: React.FC<UserManagementProps> = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [userToDelete, setUserToDelete] = useState<User | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [formData, setFormData] = useState<CreateUserRequest>({
     name: "",
@@ -229,17 +233,30 @@ export const UserManagement: React.FC<UserManagementProps> = ({
     }
   };
 
-  const handleDeleteUser = async (userId: string) => {
-    if (!window.confirm("Are you sure you want to delete this user?")) {
-      return;
-    }
+  const handleDeleteUser = (user: User) => {
+    setUserToDelete(user);
+    setIsDeleteModalOpen(true);
+  };
+
+  const confirmDeleteUser = async () => {
+    if (!userToDelete) return;
 
     try {
-      await apiService.deleteUser(userId);
-      setUsers((prev) => prev.filter((user) => user.id !== userId));
+      setIsDeleting(true);
+      await apiService.deleteUser(userToDelete.id);
+      setUsers((prev) => prev.filter((user) => user.id !== userToDelete.id));
+      setIsDeleteModalOpen(false);
+      setUserToDelete(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to delete user");
+    } finally {
+      setIsDeleting(false);
     }
+  };
+
+  const cancelDeleteUser = () => {
+    setIsDeleteModalOpen(false);
+    setUserToDelete(null);
   };
 
   const handleOpenModal = (user?: User) => {
@@ -465,7 +482,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({
                         <Button
                           variant="danger"
                           size="sm"
-                          onClick={() => handleDeleteUser(user.id)}
+                          onClick={() => handleDeleteUser(user)}
                         >
                           Delete
                         </Button>
@@ -579,6 +596,22 @@ export const UserManagement: React.FC<UserManagementProps> = ({
           </div>
         </FormContainer>
       </Modal>
+
+      <ConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onClose={cancelDeleteUser}
+        onConfirm={confirmDeleteUser}
+        title="Delete User"
+        message={
+          userToDelete
+            ? `Are you sure you want to delete "${userToDelete.name}"? This action cannot be undone.`
+            : "Are you sure you want to delete this user? This action cannot be undone."
+        }
+        confirmText="Delete"
+        cancelText="Cancel"
+        variant="danger"
+        isLoading={isDeleting}
+      />
     </Container>
   );
 };
