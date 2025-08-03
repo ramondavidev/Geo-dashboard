@@ -7,6 +7,7 @@ import { apiService } from "@/services/apiService";
 import { weatherService } from "@/services/weatherService";
 import { Button } from "@/components/common/Button";
 import { Input } from "@/components/common/Input";
+import { ZipCodeDropdown } from "@/components/ZipCodeDropdown";
 import { Modal } from "@/components/Modal";
 import { WeatherAvatar } from "@/components/WeatherAvatar";
 import { TimeZoneClock } from "@/components/TimeZoneClock";
@@ -516,14 +517,13 @@ export const UserManagement: React.FC = () => {
             disabled={submitting}
           />
 
-          <Input
+          <ZipCodeDropdown
             label="Zip Code"
-            type="text"
             value={formData.zipCode}
-            onChange={(e) =>
-              setFormData((prev) => ({ ...prev, zipCode: e.target.value }))
+            onChange={(zipCode) =>
+              setFormData((prev) => ({ ...prev, zipCode }))
             }
-            placeholder="Enter zip code"
+            placeholder="Search zip code or city..."
             disabled={submitting}
           />
 
@@ -535,7 +535,7 @@ export const UserManagement: React.FC = () => {
               marginBottom: "1rem",
             }}
           >
-            Please enter a valid US zip code (e.g., 90210)
+            Search by zip code or city name. Select from the dropdown or enter a 5-digit zip code directly.
           </div>
 
           <div

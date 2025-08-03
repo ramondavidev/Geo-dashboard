@@ -44,7 +44,7 @@ export const ModalContent = styled(motion.div)<{ $size: ModalProps["size"] }>`
   overflow: hidden;
   display: flex;
   flex-direction: column;
-
+  height: 515px;
   ${({ $size }) => getSizeStyles($size)}
 `;
 
