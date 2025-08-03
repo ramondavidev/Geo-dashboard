@@ -89,7 +89,7 @@ Before running the application, make sure you have the following:
 
 4. **Environment Configuration**
 
-   **Frontend Environment** - Create `.env.local` in the root directory:
+   **Frontend Environment** - Create `.env.` in the root directory:
 
    ```env
    NEXT_PUBLIC_API_URL=""
