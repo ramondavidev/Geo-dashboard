@@ -113,13 +113,7 @@ Before running the application, make sure you have the following:
 
 ### 🏃‍♂️ Running the Application
 
-#### Option 1: Using VS Code Tasks (Recommended)
-
-If you're using VS Code, you can use the predefined task:
-
-1. **Start Frontend**: Press `Ctrl+Shift+P` → "Tasks: Run Task" → "Build and Start Frontend"
-
-#### Option 2: Manual Setup
+#### Manual Setup
 
 1. **Start the Backend Server**
 
@@ -192,48 +186,6 @@ npm run test         # Run backend tests
 | `POST`   | `/api/users`     | Create new user (with geo-location)  | User data         | Created user    |
 | `PUT`    | `/api/users/:id` | Update user (re-fetch geo if needed) | Updated user data | Updated user    |
 | `DELETE` | `/api/users/:id` | Delete user                          | -                 | Success message |
-
-### Example API Usage
-
-**Get All Users:**
-
-```bash
-curl http://localhost:5000/api/users
-```
-
-**Create New User:**
-
-```bash
-curl -X POST \
-  http://localhost:5000/api/users \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "John Doe",
-    "email": "john@example.com",
-    "zipCode": "90210"
-  }'
-```
-
-**Response Format:**
-
-```json
-{
-  "id": "user-uuid",
-  "name": "John Doe",
-  "email": "john@example.com",
-  "zipCode": "90210",
-  "latitude": 34.0901,
-  "longitude": -118.4065,
-  "timezone": "America/Los_Angeles",
-  "weather": {
-    "temperature": 72,
-    "condition": "sunny",
-    "forecast": [...]
-  },
-  "createdAt": "2025-08-03T12:00:00Z",
-  "updatedAt": "2025-08-03T12:00:00Z"
-}
-```
 
 ## 📁 Project Structure
 
@@ -340,22 +292,6 @@ npm run test:coverage
 - Reinstall dependencies: `rm -rf node_modules && npm install`
 - Check Node.js version compatibility (16+)
 
-### Environment Setup
-
-**Missing Environment Variables:**
-
-```bash
-# Check if all required variables are set
-echo $OPENWEATHER_API_KEY
-echo $FIREBASE_PROJECT_ID
-```
-
-**Firebase Setup Issues:**
-
-- Follow `backend/FIREBASE_SETUP.md` for detailed setup instructions
-- Verify service account permissions
-- Check database rules configuration
-
 ## 🔒 Security Considerations
 
 - **API Keys**: Never expose API keys in client-side code
@@ -363,47 +299,6 @@ echo $FIREBASE_PROJECT_ID
 - **CORS**: Backend configured for secure cross-origin requests
 - **Input Validation**: All user inputs are validated and sanitized
 - **Error Messages**: Sensitive information is not exposed in error responses
-
-## 🚀 Deployment
-
-### Frontend (Vercel)
-
-```bash
-# Deploy to Vercel
-npm run build
-vercel --prod
-```
-
-### Backend (Heroku, Railway, etc.)
-
-```bash
-# Build for production
-cd backend
-npm run build
-
-# Set environment variables on your hosting platform
-# Deploy using your preferred hosting service
-```
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- [OpenWeatherMap](https://openweathermap.org/) for geo-location and weather data
-- [Firebase](https://firebase.google.com/) for real-time database services
-- [Next.js](https://nextjs.org/) for the amazing React framework
-- [Styled Components](https://styled-components.com/) for CSS-in-JS styling
-- [Framer Motion](https://www.framer.com/motion/) for beautiful animations
 
 ---
 
