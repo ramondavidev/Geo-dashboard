@@ -523,9 +523,20 @@ export const UserManagement: React.FC = () => {
             onChange={(e) =>
               setFormData((prev) => ({ ...prev, zipCode: e.target.value }))
             }
-            placeholder="Enter zip code (e.g., 90210)"
+            placeholder="Enter zip code"
             disabled={submitting}
           />
+
+          <div
+            style={{
+              fontSize: "12px",
+              color: "#6B7280",
+              marginTop: "4px",
+              marginBottom: "1rem",
+            }}
+          >
+            Please enter a valid US zip code (e.g., 90210)
+          </div>
 
           <div
             style={{

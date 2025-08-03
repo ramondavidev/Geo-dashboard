@@ -134,13 +134,14 @@ export const HeaderButton = styled(motion.button)`
   animation: subtlePulse 2s ease-in-out infinite;
 
   @keyframes subtlePulse {
-    0%, 100% {
-      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.35), 0 1px 3px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    0%,
+    100% {
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.35),
+        0 1px 3px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
     }
     50% {
-      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45), 0 2px 8px rgba(0, 0, 0, 0.12),
-        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45),
+        0 2px 8px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.25);
     }
   }
 
@@ -186,7 +187,7 @@ export const HeaderButton = styled(motion.button)`
     transform: translateY(-3px);
     box-shadow: 0 8px 30px rgba(59, 130, 246, 0.45),
       0 4px 15px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    background: linear-gradient(135deg, #2563EB, #5B21B6);
+    background: linear-gradient(135deg, #2563eb, #5b21b6);
 
     &::before {
       left: 100%;

@@ -90,7 +90,8 @@ export class UserController {
         error instanceof Error &&
         (error.message.includes("required") ||
           error.message.includes("Invalid") ||
-          error.message.includes("must be"))
+          error.message.includes("must be") ||
+          error.message.toLowerCase().includes("zip code"))
           ? 400
           : 500;
 
@@ -135,7 +136,8 @@ export class UserController {
         } else if (
           error.message.includes("required") ||
           error.message.includes("Invalid") ||
-          error.message.includes("must be")
+          error.message.includes("must be") ||
+          error.message.toLowerCase().includes("zip code")
         ) {
           statusCode = 400;
         }

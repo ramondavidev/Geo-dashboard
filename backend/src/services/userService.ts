@@ -130,6 +130,10 @@ export class UserService {
       return newUser;
     } catch (error) {
       console.error("Error creating user:", error);
+      if (error instanceof Error) {
+        // Preserve specific error messages (like invalid zip code)
+        throw error;
+      }
       throw new Error("Failed to create user");
     }
   }
