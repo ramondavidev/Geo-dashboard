@@ -6,9 +6,24 @@ import { Layout } from "./Layout";
 // Mock framer-motion to avoid issues in tests
 jest.mock("framer-motion", () => ({
   motion: {
-    div: ({ children, ...props }: React.PropsWithChildren<Record<string, unknown>>) => <div {...props}>{children}</div>,
-    header: ({ children, ...props }: React.PropsWithChildren<Record<string, unknown>>) => <header {...props}>{children}</header>,
-    main: ({ children, ...props }: React.PropsWithChildren<Record<string, unknown>>) => <main {...props}>{children}</main>,
+    div: ({
+      children,
+      ...props
+    }: React.PropsWithChildren<Record<string, unknown>>) => (
+      <div {...props}>{children}</div>
+    ),
+    header: ({
+      children,
+      ...props
+    }: React.PropsWithChildren<Record<string, unknown>>) => (
+      <header {...props}>{children}</header>
+    ),
+    main: ({
+      children,
+      ...props
+    }: React.PropsWithChildren<Record<string, unknown>>) => (
+      <main {...props}>{children}</main>
+    ),
   },
 }));
 
@@ -30,7 +45,9 @@ describe("Layout", () => {
     );
 
     expect(screen.getByText("Geo-CRUD")).toBeInTheDocument();
-    expect(screen.getByText("Modern geo-location user management")).toBeInTheDocument();
+    expect(
+      screen.getByText("Modern geo-location user management")
+    ).toBeInTheDocument();
     expect(screen.getByText("Test Content")).toBeInTheDocument();
   });
 
@@ -42,7 +59,9 @@ describe("Layout", () => {
     );
 
     expect(screen.getByText("Custom Title")).toBeInTheDocument();
-    expect(screen.getByText("Modern geo-location user management")).toBeInTheDocument();
+    expect(
+      screen.getByText("Modern geo-location user management")
+    ).toBeInTheDocument();
     expect(screen.getByText("Test Content")).toBeInTheDocument();
   });
 
@@ -54,10 +73,14 @@ describe("Layout", () => {
     );
 
     expect(
-      screen.getByText("Built with Next.js, TypeScript, Styled Components & Firebase")
+      screen.getByText(
+        "Built with Next.js, TypeScript, Styled Components & Firebase"
+      )
     ).toBeInTheDocument();
     expect(
-      screen.getByText("Powered by OpenWeatherMap API for real-time geo-location data")
+      screen.getByText(
+        "Powered by OpenWeatherMap API for real-time geo-location data"
+      )
     ).toBeInTheDocument();
   });
 

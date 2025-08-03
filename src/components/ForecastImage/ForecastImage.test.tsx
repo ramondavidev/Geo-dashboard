@@ -10,7 +10,7 @@ const mockUsersWithWeather: User[] = [
     name: "John Doe",
     zipCode: "10001",
     latitude: 40.7128,
-    longitude: -74.0060,
+    longitude: -74.006,
     timezone: "America/New_York",
     createdAt: "2024-01-01T00:00:00Z",
     updatedAt: "2024-01-01T00:00:00Z",
@@ -61,28 +61,38 @@ const mockUsersWithoutWeather: User[] = [
 describe("ForecastImage", () => {
   it("renders empty state when no users have weather data", () => {
     render(<ForecastImage users={mockUsersWithoutWeather} />);
-    
-    expect(screen.getByText("No weather data available for users")).toBeInTheDocument();
+
+    expect(
+      screen.getByText("No weather data available for users")
+    ).toBeInTheDocument();
   });
 
   it("renders weather overview when users have weather data", () => {
     render(<ForecastImage users={mockUsersWithWeather} />);
-    
+
     expect(screen.getByText("2 Locations Tracked")).toBeInTheDocument();
-    expect(screen.getByText(/Real-time weather monitoring across 2 active locations worldwide/)).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /Real-time weather monitoring across 2 active locations worldwide/
+      )
+    ).toBeInTheDocument();
   });
 
   it("displays correct location count with singular/plural", () => {
     const singleUser = [mockUsersWithWeather[0]];
     render(<ForecastImage users={singleUser} />);
-    
+
     expect(screen.getByText("1 Location Tracked")).toBeInTheDocument();
-    expect(screen.getByText(/Real-time weather monitoring across 1 active location worldwide/)).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /Real-time weather monitoring across 1 active location worldwide/
+      )
+    ).toBeInTheDocument();
   });
 
   it("renders weather feature cards", () => {
     render(<ForecastImage users={mockUsersWithWeather} />);
-    
+
     expect(screen.getByText("Live Weather")).toBeInTheDocument();
     expect(screen.getByText("Temperature & Conditions")).toBeInTheDocument();
     expect(screen.getByText("Time Zones")).toBeInTheDocument();
@@ -95,7 +105,7 @@ describe("ForecastImage", () => {
     const { container } = render(
       <ForecastImage users={mockUsersWithWeather} className="custom-forecast" />
     );
-    
+
     // Check if the className is applied to the component
     expect(container.firstChild).toBeDefined();
   });
@@ -103,15 +113,19 @@ describe("ForecastImage", () => {
   it("handles mixed users with and without weather data", () => {
     const mixedUsers = [...mockUsersWithWeather, ...mockUsersWithoutWeather];
     render(<ForecastImage users={mixedUsers} />);
-    
+
     // Should show count of users with weather data
     expect(screen.getByText("3 Locations Tracked")).toBeInTheDocument();
-    expect(screen.getByText(/Real-time weather monitoring across 2 active locations worldwide/)).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /Real-time weather monitoring across 2 active locations worldwide/
+      )
+    ).toBeInTheDocument();
   });
 
   it("renders decorative elements", () => {
     render(<ForecastImage users={mockUsersWithWeather} />);
-    
+
     // Check for main emoji
     expect(screen.getByText("🗺️")).toBeInTheDocument();
   });

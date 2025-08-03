@@ -6,14 +6,27 @@ import { Modal } from "./Modal";
 // Mock framer-motion
 jest.mock("framer-motion", () => ({
   motion: {
-    div: ({ children, ...props }: React.PropsWithChildren<Record<string, unknown>>) => <div {...props}>{children}</div>,
+    div: ({
+      children,
+      ...props
+    }: React.PropsWithChildren<Record<string, unknown>>) => (
+      <div {...props}>{children}</div>
+    ),
   },
-  AnimatePresence: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+  AnimatePresence: ({ children }: { children: React.ReactNode }) => (
+    <>{children}</>
+  ),
 }));
 
 // Mock the Button component
 jest.mock("../common/Button", () => ({
-  Button: ({ children, onClick, ...props }: React.PropsWithChildren<Record<string, unknown> & { onClick?: () => void }>) => (
+  Button: ({
+    children,
+    onClick,
+    ...props
+  }: React.PropsWithChildren<
+    Record<string, unknown> & { onClick?: () => void }
+  >) => (
     <button onClick={onClick} {...props}>
       {children}
     </button>
@@ -165,8 +178,11 @@ describe("Modal", () => {
 
     unmount();
 
-    expect(removeEventListenerSpy).toHaveBeenCalledWith("keydown", expect.any(Function));
-    
+    expect(removeEventListenerSpy).toHaveBeenCalledWith(
+      "keydown",
+      expect.any(Function)
+    );
+
     removeEventListenerSpy.mockRestore();
   });
 });
